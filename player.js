@@ -125,6 +125,7 @@ class Player {
       var y = this.pos[1] + dy;
     
       ctx.globalCompositeOperation = 'overlay';
+      //ctx.globalCompositeOperation = 'source-in';
       ctx.fillStyle = this.color;
       ctx.fillRect(x, y, image.width, image.height);
       ctx.drawImage(image, x - image.width / 2, y - image.height / 2);
