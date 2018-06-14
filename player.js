@@ -41,7 +41,7 @@ class Player {
     this.keys = keys;
     this.keyboard = keyboard;
     this.world = world;
-    this.pos = [0, 0];
+    this.pos = [100, 100];
     this.vel = [0, 0];
     this.dest = null;
   }
@@ -120,10 +120,13 @@ class Player {
       var dx = Math.cos(absoluteMs * 0.001) * 2;
 
       var frame = Math.floor(absoluteMs * 0.001) % 2;
-      var image = char_image["front"][this.facing];
+      var image = back_left;
       var x = this.pos[0] + dx;
       var y = this.pos[1] + dy;
+    
+      ctx.globalCompositeOperation = 'overlay';
       ctx.fillStyle = this.color;
+      ctx.fillRect(x, y, image.width, image.height);
       ctx.drawImage(image, x - image.width / 2, y - image.height / 2);
   }
 }
