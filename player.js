@@ -120,7 +120,7 @@ class Player {
       var dx = Math.cos(absoluteMs * 0.001) * 2;
 
       var frame = Math.floor(absoluteMs * 0.001) % 2;
-      var image = char_image[this.who][this.color][this.facing][frame]
+      var image = char_image["front"][this.facing];
       var x = this.pos[0] + dx;
       var y = this.pos[1] + dy;
       ctx.fillStyle = this.color;

@@ -23,6 +23,8 @@ function draw(absoluteMs, ctx) {
   ctx.rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   ctx.fillStyle = "gray";
   ctx.fill();
+  
+  player.draw(absoluteMs, ctx);
 }
 
 class Keyboard {
@@ -65,6 +67,7 @@ class Keyboard {
 
 
 var keyboard = new Keyboard();
+var player = new Player("foofoo", "#ffacb7", "left", QSDR_SPACE, keyboard, null);
 
 var previousFrameMs = null;
 function tick(absoluteMs) {
