@@ -1,3 +1,37 @@
+function dist(v) {
+  return Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+}
+
+// constants
+const ACCEL = 0.0001;
+const FRICTION = 0.005;  // bigger means more friction
+const MAX_SPEED = 100;
+
+var front_left = document.getElementById("frontL");
+var front_right = document.getElementById("frontR");
+var back_left = document.getElementById("backL");
+var back_right = document.getElementById("backR");
+
+// this organizes the various character images.
+// to use it, access char_image[who][color][facing][frame],
+//   who is 0 or 1
+//   color is "orange" or "purple"
+//   facing is "left" or "right"
+//    frame is 0 or 1
+var char_image = [
+  // char0
+  {
+    "front": {
+      "left": [front_left],
+      "right": [front_right],
+    },
+    "back": {
+      "left": [back_left],
+      "right": [back_right],
+    }
+  }
+];
+
 
 class Player {
   constructor(who, color, facing, keys, keyboard, world) {
@@ -9,12 +43,6 @@ class Player {
     this.world = world;
     this.pos = [0, 0];
     this.vel = [0, 0];
-    this.holding = null;
-    // a player is "picking" if they were not holding anything when they started pressing action
-    this.picking = false;
-    // a player is "putting" if they were holding something when they started pressing action
-    this.putting = false;
-    this.vanishing = null;
     this.dest = null;
   }
 
@@ -22,29 +50,9 @@ class Player {
     this.pos = pos.slice();
     this.start_pos = pos.slice();
   }
-
-  teleportHome() {
-    teleport(this, this.start_pos);
-  }
   
   whois() {
     return this.who;
-  }
-  
-  vanish() {
-    this.vanishing = performance.now();
-  }
-
-  actionButtonDown() {
-    return this.keyboard[this.keys[4]];
-  }
-
-  handPos() {
-    if (this.facing == "left") {
-      return [this.pos[0] - 30, this.pos[1]];
-    } else {
-      return [this.pos[0] + 30, this.pos[1]];
-    }
   }
   
   decrease_speed(amount) {
@@ -102,22 +110,6 @@ class Player {
     } else if (this.pos[1] > this.world.height) {
       this.pos[1] = this.world.height - 1;
       this.vel[1] = 0;
-    }
-    
-    if (this.actionButtonDown() && !this.picking && !this.putting) {
-      if (this.holding == null) {
-        this.picking = true;
-      } else {
-        this.putting = true;
-      }
-    }
-    if (this.putting && this.holding !== null) {
-      // console.log("dropped: ", this.holding);
-      this.holding = null;
-    }
-    if (!this.actionButtonDown()) {
-      this.picking = false;
-      this.putting = false;
     }
   }
                           
