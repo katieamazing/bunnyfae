@@ -9,6 +9,13 @@ var ctx = canvas.getContext("2d", { alpha: false });
 const SCREEN_WIDTH = canvas.width;
 const SCREEN_HEIGHT = canvas.height;
 
+// magic numbers for keys
+const MOVE_ACT = [65, 87, 68, 83, 81];
+
+function update(deltaMs) {
+  //nothing yet
+}
+
 function draw(absoluteMs, ctx) {
   ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   ctx.beginPath();
