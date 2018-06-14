@@ -8,9 +8,10 @@ var canvas = document.getElementById("thecanvas");
 var ctx = canvas.getContext("2d", { alpha: false });
 const SCREEN_WIDTH = canvas.width;
 const SCREEN_HEIGHT = canvas.height;
+const LONG_PRESS_DURATION = 150;  // milliseconds
 
 // magic numbers for keys
-const MOVE_ACT = [65, 87, 68, 83, 81];
+const QSDR_SPACE = [81, 83, 68, 82, 32];
 
 function update(deltaMs) {
   //nothing yet
@@ -23,6 +24,47 @@ function draw(absoluteMs, ctx) {
   ctx.fillStyle = "gray";
   ctx.fill();
 }
+
+class Keyboard {
+  constructor () {
+    var that = this;
+    document.body.addEventListener("keydown", function (e) { that.keydown(e); });
+    document.body.addEventListener("keyup", function (e) { that.keyup(e); });
+  }
+  
+  keydown(e) {
+    if (e.keyCode == 81
+      || e.keyCode == 83
+      || e.keyCode == 68
+      || e.keyCode == 82
+      || e.keyCode == 32) {
+      e.preventDefault();
+      // by keeping track of when the key was down,
+      // we can distinguish recent-down from long-down
+      if (this[e.keyCode] == null) {
+        this[e.keyCode] = performance.now();
+      }
+    }
+  }
+
+  keyup(e) {
+      this[e.keyCode] = null;
+  }
+  
+  long_press(keyCode) {
+    // was the key pressed at least LONG_PRESS_DURATION ms ago?
+    var answer = this[keyCode] && this[keyCode] < performance.now() - LONG_PRESS_DURATION;
+    if (answer) {
+      // if we are returning true, then don't return true again next frame,
+      // instead only return true LONG_PRESS_DURATION more ms from now.
+      this[keyCode] = performance.now();
+    }
+    return answer;
+  }
+}
+
+
+var keyboard = new Keyboard();
 
 var previousFrameMs = null;
 function tick(absoluteMs) {
