@@ -12,9 +12,11 @@ const LONG_PRESS_DURATION = 150;  // milliseconds
 
 // magic numbers for keys
 const QSDR_SPACE = [81, 83, 68, 82, 32];
+const WASD_SPACE = [87, 65, 83, 68, 32];
 
 function update(deltaMs) {
   //nothing yet
+  player.update(deltaMs)
 }
 
 function draw(absoluteMs, ctx) {
@@ -67,7 +69,7 @@ class Keyboard {
 
 
 var keyboard = new Keyboard();
-var player = new Player("foofoo", "#ffacb7", "left", QSDR_SPACE, keyboard, null);
+var player = new Player("foofoo", "#ffacb7", "left", WASD_SPACE, keyboard, null);
 
 var previousFrameMs = null;
 function tick(absoluteMs) {

@@ -73,11 +73,20 @@ class Player {
       return;
     }
 
+    // changes of facing
+    if (this.keyboard[0] && !this.keyboard[2]) { // up && not down
+      this.facing = "up";
+    }
+    if (this.keyboard[2] && !this.keyboard[0]) { // down and not up
+      this.facing = "down";
+    }
+    
+    
     var a = [0, 0]
-    // left
-    if (this.keyboard[this.keys[0]] && !this.keyboard[this.keys[2]]) {
+    // left and up are Q
+    if (this.keyboard[this.keys[1]] && this.facing ==!this.keyboard[this.keys[2]]) {
       a[0] -= ACCEL * deltaMs;
-      this.facing = "left";
+      //this.facing = "left";
     }
     // up
     if (this.keyboard[this.keys[1]]) {
@@ -86,7 +95,7 @@ class Player {
     // right
     if (this.keyboard[this.keys[2]] && !this.keyboard[this.keys[0]]) {
       a[0] += ACCEL * deltaMs;
-      this.facing = "right";
+      //this.facing = "right";
     }
     // down
     if (this.keyboard[this.keys[3]]) {
@@ -97,6 +106,8 @@ class Player {
     this.decrease_speed(FRICTION);
     this.pos[0] = parseInt(this.pos[0] + this.vel[0] * deltaMs);
     this.pos[1] = parseInt(this.pos[1] + this.vel[1] * deltaMs);
+    /*
+    TODO: clamp the position to within the world
     if (this.pos[0] < 0) {
       this.pos[0] = 0;
       this.vel[0] = 0;
@@ -111,6 +122,7 @@ class Player {
       this.pos[1] = this.world.height - 1;
       this.vel[1] = 0;
     }
+    */
   }
                           
   draw(absoluteMs, ctx) {
