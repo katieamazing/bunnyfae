@@ -67,6 +67,11 @@ class Player {
     }
   }
   
+  upIsDown() {
+    return this.keyboard[this.keys[0]]
+  }
+  
+  
   update(deltaMs) {
     if (this.vanishing != null) {
       // can't move after vanishing
@@ -74,32 +79,41 @@ class Player {
     }
 
     // changes of facing
+    console.log(this.keyboard[this.keys[0]])
+    if (this.upIsDown()) {
+      this.facing = "up";
+    }
+    /*
     if (this.keyboard[0] && !this.keyboard[2]) { // up && not down
       this.facing = "up";
     }
     if (this.keyboard[2] && !this.keyboard[0]) { // down and not up
       this.facing = "down";
     }
+    */
     
     
     var a = [0, 0]
-    // left and up are Q
-    if (this.keyboard[this.keys[1]] && this.facing ==!this.keyboard[this.keys[2]]) {
+    console.log(this.facing)
+    // up and left
+    if (this.keyboard[this.keys[1]] && this.facing == "up") {
       a[0] -= ACCEL * deltaMs;
-      //this.facing = "left";
+      a[1] -= ACCEL * deltaMs; // TODO: not actually a square
     }
-    // up
-    if (this.keyboard[this.keys[1]]) {
-      a[1] -= ACCEL * deltaMs;
-    }
-    // right
-    if (this.keyboard[this.keys[2]] && !this.keyboard[this.keys[0]]) {
+    // up and right
+    if (this.keyboard[this.keys[3]] && this.facing == "up") {
       a[0] += ACCEL * deltaMs;
-      //this.facing = "right";
+      a[1] -= ACCEL * deltaMs; // TODO: not actually a square
     }
-    // down
-    if (this.keyboard[this.keys[3]]) {
-      a[1] += ACCEL * deltaMs;
+    // down and left
+    if (this.keyboard[this.keys[1]] && this.facing == "down") {
+      a[0] -= ACCEL * deltaMs;
+      a[1] += ACCEL * deltaMs; // TODO: not actually a square
+    }
+    // down and right
+    if (this.keyboard[this.keys[3]] && this.facing == "down") {
+      a[0] += ACCEL * deltaMs;
+      a[1] += ACCEL * deltaMs; // TODO: not actually a square
     }
     this.vel[0] += a[0] * deltaMs;
     this.vel[1] += a[1] * deltaMs;

@@ -37,10 +37,10 @@ class Keyboard {
   }
   
   keydown(e) {
-    if (e.keyCode == 81
+    if (e.keyCode == 87
+      || e.keyCode == 65
       || e.keyCode == 83
       || e.keyCode == 68
-      || e.keyCode == 82
       || e.keyCode == 32) {
       e.preventDefault();
       // by keeping track of when the key was down,
@@ -69,7 +69,7 @@ class Keyboard {
 
 
 var keyboard = new Keyboard();
-var player = new Player("foofoo", "#ffacb7", "left", WASD_SPACE, keyboard, null);
+var player = new Player("foofoo", "#ffacb7", "down", WASD_SPACE, keyboard, null);
 
 var previousFrameMs = null;
 function tick(absoluteMs) {
