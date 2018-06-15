@@ -69,7 +69,7 @@ class Keyboard {
 
 
 var keyboard = new Keyboard();
-var player = new Player("foofoo", "#ffacb7", "down", WASD_SPACE, keyboard, null);
+var player = new Player("foofoo", "#ffacb7", "down", keyboard, null);
 
 var previousFrameMs = null;
 function tick(absoluteMs) {

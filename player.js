@@ -4,8 +4,8 @@ function dist(v) {
 
 // constants
 const ACCEL = 0.0001;
-const FRICTION = 0.005;  // bigger means more friction
-const MAX_SPEED = 100;
+const FRICTION = 0.009;  // bigger means more friction
+const MAX_SPEED = 50;
 
 var front_left = document.getElementById("frontL");
 var front_right = document.getElementById("frontR");
@@ -34,16 +34,16 @@ var char_image = [
 
 
 class Player {
-  constructor(who, color, facing, keys, keyboard, world) {
+  constructor(who, color, facing, keyboard, world) {
     this.who = who;
     this.color = color;
     this.facing = facing;
-    this.keys = keys;
     this.keyboard = keyboard;
     this.world = world;
     this.pos = [100, 100];
     this.vel = [0, 0];
     this.dest = null;
+    this.sprite = back_left;
   }
 
   startAt(pos) {
@@ -67,10 +67,13 @@ class Player {
     }
   }
   
-  upIsDown() {
-    return this.keyboard[this.keys[0]]
+  upIsPressed() {
+    return this.keyboard[87]; // W
   }
   
+  downIsPressed() {
+    return this.keyboard[83]; // S
+  }
   
   update(deltaMs) {
     if (this.vanishing != null) {
@@ -79,41 +82,38 @@ class Player {
     }
 
     // changes of facing
-    console.log(this.keyboard[this.keys[0]])
-    if (this.upIsDown()) {
+    if (this.upIsPressed()) {
       this.facing = "up";
     }
-    /*
-    if (this.keyboard[0] && !this.keyboard[2]) { // up && not down
-      this.facing = "up";
-    }
-    if (this.keyboard[2] && !this.keyboard[0]) { // down and not up
+    if (this.downIsPressed()) {
       this.facing = "down";
     }
-    */
     
     
     var a = [0, 0]
-    console.log(this.facing)
     // up and left
-    if (this.keyboard[this.keys[1]] && this.facing == "up") {
+    if (this.keyboard[65] && this.facing == "up") {
       a[0] -= ACCEL * deltaMs;
       a[1] -= ACCEL * deltaMs; // TODO: not actually a square
+      this.sprite = back_left;
     }
     // up and right
-    if (this.keyboard[this.keys[3]] && this.facing == "up") {
+    if (this.keyboard[68] && this.facing == "up") {
       a[0] += ACCEL * deltaMs;
       a[1] -= ACCEL * deltaMs; // TODO: not actually a square
+      this.sprite = back_right;
     }
     // down and left
-    if (this.keyboard[this.keys[1]] && this.facing == "down") {
+    if (this.keyboard[65] && this.facing == "down") {
       a[0] -= ACCEL * deltaMs;
       a[1] += ACCEL * deltaMs; // TODO: not actually a square
+      this.sprite = front_left;
     }
     // down and right
-    if (this.keyboard[this.keys[3]] && this.facing == "down") {
+    if (this.keyboard[68] && this.facing == "down") {
       a[0] += ACCEL * deltaMs;
       a[1] += ACCEL * deltaMs; // TODO: not actually a square
+      this.sprite = front_right;
     }
     this.vel[0] += a[0] * deltaMs;
     this.vel[1] += a[1] * deltaMs;
@@ -146,14 +146,13 @@ class Player {
       var dx = Math.cos(absoluteMs * 0.001) * 2;
 
       var frame = Math.floor(absoluteMs * 0.001) % 2;
-      var image = back_left;
       var x = this.pos[0] + dx;
       var y = this.pos[1] + dy;
     
       ctx.globalCompositeOperation = 'overlay';
       //ctx.globalCompositeOperation = 'source-in';
       ctx.fillStyle = this.color;
-      ctx.fillRect(x, y, image.width, image.height);
-      ctx.drawImage(image, x - image.width / 2, y - image.height / 2);
+      ctx.fillRect(x, y, this.sprite.width, this.sprite.height);
+      ctx.drawImage(this.sprite, x - this.sprite.width / 2, y - this.sprite.height / 2);
   }
 }
