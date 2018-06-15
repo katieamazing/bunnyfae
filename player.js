@@ -4,8 +4,8 @@ function dist(v) {
 
 // constants
 const ACCEL = 0.0001;
-const FRICTION = 0.009;  // bigger means more friction
-const MAX_SPEED = 50;
+const FRICTION = 0.005;  // bigger means more friction
+const MAX_SPEED = 20;
 
 var front_left = document.getElementById("frontL");
 var front_right = document.getElementById("frontR");
@@ -74,6 +74,14 @@ class Player {
   downIsPressed() {
     return this.keyboard[83]; // S
   }
+
+  leftIsPressed() {
+    return this.keyboard[65]; // A
+  }
+  
+  rightIsPressed() {
+    return this.keyboard[68]; // D
+  }
   
   update(deltaMs) {
     if (this.vanishing != null) {
@@ -88,36 +96,54 @@ class Player {
     if (this.downIsPressed()) {
       this.facing = "down";
     }
-    
-    
-    var a = [0, 0]
-    // up and left
-    if (this.keyboard[65] && this.facing == "up") {
-      a[0] -= ACCEL * deltaMs;
-      a[1] -= ACCEL * deltaMs; // TODO: not actually a square
+    if (this.leftIsPressed()) {
+      this.left_right_facing = "left";
+    }
+    if (this.rightIsPressed()) {
+      this.left_right_facing = "right";
+    }
+    if (this.facing == "up" && this.left_right_facing == "left") {
       this.sprite = back_left;
     }
-    // up and right
-    if (this.keyboard[68] && this.facing == "up") {
-      a[0] += ACCEL * deltaMs;
-      a[1] -= ACCEL * deltaMs; // TODO: not actually a square
+    if (this.facing == "up" && this.left_right_facing == "right") {
       this.sprite = back_right;
     }
-    // down and left
-    if (this.keyboard[65] && this.facing == "down") {
-      a[0] -= ACCEL * deltaMs;
-      a[1] += ACCEL * deltaMs; // TODO: not actually a square
+    if (this.facing == "down" && this.left_right_facing == "left") {
       this.sprite = front_left;
     }
-    // down and right
-    if (this.keyboard[68] && this.facing == "down") {
-      a[0] += ACCEL * deltaMs;
-      a[1] += ACCEL * deltaMs; // TODO: not actually a square
+    if (this.facing == "down" && this.left_right_facing == "right") {
       this.sprite = front_right;
     }
+
+    // acceleration
+    var a = [0, 0]
+    if (this.facing == "up") {
+      if (this.keyboard[65]) {  // up and left
+        a[0] -= ACCEL * deltaMs;
+        a[1] -= ACCEL * deltaMs * 0.5; // TODO: not actually a square
+      }
+      if (this.keyboard[68]) {  // up and right
+        a[0] += ACCEL * deltaMs;
+        a[1] -= ACCEL * deltaMs * 0.5; // TODO: not actually a square
+      }
+    }
+    if (this.facing == "down") {
+      if (this.keyboard[65]) {  // down and left
+        a[0] -= ACCEL * deltaMs;
+        a[1] += ACCEL * deltaMs * 0.5; // TODO: not actually a square
+      }
+      if (this.keyboard[68]) {  // down and right
+        a[0] += ACCEL * deltaMs;
+        a[1] += ACCEL * deltaMs * 0.5; // TODO: not actually a square
+      }
+    }
+    
+    // velocity 
     this.vel[0] += a[0] * deltaMs;
     this.vel[1] += a[1] * deltaMs;
     this.decrease_speed(FRICTION);
+    
+    // position
     this.pos[0] = parseInt(this.pos[0] + this.vel[0] * deltaMs);
     this.pos[1] = parseInt(this.pos[1] + this.vel[1] * deltaMs);
     /*
