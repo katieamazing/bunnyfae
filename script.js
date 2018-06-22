@@ -9,6 +9,7 @@ var ctx = canvas.getContext("2d", { alpha: false });
 const SCREEN_WIDTH = canvas.width;
 const SCREEN_HEIGHT = canvas.height;
 const LONG_PRESS_DURATION = 150;  // milliseconds
+const BOX100 = document.getElementById("box100");
 
 // magic numbers for keys
 const QSDR_SPACE = [81, 83, 68, 82, 32];
@@ -26,9 +27,13 @@ function draw(absoluteMs, ctx) {
   ctx.fillStyle = "gray";
   ctx.fill();
   
+  ctx.drawImage(BOX100, 100, 100); 
+  
   //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
   ctx.beginPath();
-  ctx.ellipse(100, 100, 75, 50, 0, 0, 2 * Math.PI);
+  let rx = 50;
+  let ry = 25;
+  ctx.ellipse(100+rx, 100, rx, 25, 0, 0, 2 * Math.PI);
   ctx.stroke();
   
   player.draw(absoluteMs, ctx);
@@ -75,6 +80,7 @@ class Keyboard {
 
 var keyboard = new Keyboard();
 var player = new Player("foofoo", "#ffacb7", "down", keyboard, null);
+
 
 var previousFrameMs = null;
 function tick(absoluteMs) {
