@@ -26,6 +26,11 @@ function draw(absoluteMs, ctx) {
   ctx.fillStyle = "gray";
   ctx.fill();
   
+  //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+  ctx.beginPath();
+  ctx.ellipse(100, 100, 75, 50, 0, 0, 2 * Math.PI);
+  ctx.stroke();
+  
   player.draw(absoluteMs, ctx);
 }
 
