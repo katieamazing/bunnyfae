@@ -31,9 +31,9 @@ function draw(absoluteMs, ctx) {
   
   //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
   ctx.beginPath();
-  let rx = 50;
+  let rx = 48;
   let ry = 25;
-  ctx.ellipse(100+rx, 100, rx, 25, 0, 0, 2 * Math.PI);
+  ctx.ellipse(100+rx, 166+ry, rx, ry, 0, 0, 2 * Math.PI);
   ctx.stroke();
   
   player.draw(absoluteMs, ctx);
