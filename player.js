@@ -3,9 +3,9 @@ function dist(v) {
 }
 
 // constants
-const ACCEL = 0.0001;
-const FRICTION = 0.005;  // bigger means more friction
-const MAX_SPEED = 20;
+const ACCEL = 0.00005;
+const FRICTION = 0.007;  // bigger means more friction
+const MAX_SPEED = 5;
 
 var front_left = document.getElementById("frontL");
 var front_right = document.getElementById("frontR");
@@ -33,7 +33,7 @@ var char_image = [
 ];
 
 
-class Player {
+export default class Player {
   constructor(who, color, facing, keyboard, world) {
     this.who = who;
     this.color = color;
@@ -157,7 +157,6 @@ class Player {
     */
   }
   worldCoordsToScreenCoords(world_x, world_y) {
-    console.log(world_x);
     let screen_x = world_x;
     let screen_y = world_y * Math.sin(Math.PI / 6) / Math.sin(Math.PI / 4)
     return [screen_x, screen_y];
@@ -172,7 +171,6 @@ class Player {
       var screen_x;
       var screen_y;
       [screen_x, screen_y] = this.worldCoordsToScreenCoords(this.pos[0] + dx, this.pos[1] + dy);
-      console.log(screen_x, screen_y);
     
       ctx.globalCompositeOperation = 'overlay';
       //ctx.globalCompositeOperation = 'source-in';
