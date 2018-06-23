@@ -20,9 +20,9 @@ function update(deltaMs) {
   player.update(deltaMs)
 }
 
-function draw_glyph_node(ctx,) {
+function draw_glyph_node(ctx, world_x, world_y) {
   ctx.beginPath();
-  ctx.arc(300, 100, 59/2, 0, 2*Math.PI);
+  ctx.arc(world_x, world_y, 59/2, 0, 2*Math.PI);
   ctx.stroke();
 }
 
@@ -36,12 +36,17 @@ function draw(absoluteMs, ctx) {
   ctx.drawImage(BOX100, 100, 100); 
   
   ctx.save();
+  let number = 3;
+  let world_x = 300;
+  let world_y = 300;
   ctx.scale(Math.sqrt(1.5), Math.sqrt(0.5));
   ctx.beginPath();
-  ctx.arc(300, 300, 6*(59/2), 0, 2*Math.PI);
+  ctx.arc(world_x, world_y, number*40, 0, 2*Math.PI);
   ctx.stroke();
-  
-  draw_glyph_node(ctx);
+
+  for (let i=0; i<number; i++) {
+    draw_glyph_node(ctx, (Math.cos(2*i/number*Math.PI))*(number*40)+world_x, (Math.sin(2*i/number*Math.PI))*(number*40)+world_y);
+  }
   ctx.restore();
   
   player.draw(absoluteMs, ctx);
