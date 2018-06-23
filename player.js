@@ -119,22 +119,22 @@ class Player {
     var a = [0, 0]
     if (this.facing == "up") {
       if (this.keyboard[65]) {  // up and left
-        a[0] -= ACCEL * deltaMs;
-        a[1] -= ACCEL * deltaMs * 0.5; // TODO: not actually a square
+        a[0] -= ACCEL * deltaMs * Math.cos(Math.PI/6);
+        a[1] -= ACCEL * deltaMs * Math.sin(Math.PI/6);
       }
       if (this.keyboard[68]) {  // up and right
-        a[0] += ACCEL * deltaMs;
-        a[1] -= ACCEL * deltaMs * 0.5; // TODO: not actually a square
+        a[0] += ACCEL * deltaMs * Math.cos(Math.PI/6);
+        a[1] -= ACCEL * deltaMs * Math.sin(Math.PI/6);
       }
     }
     if (this.facing == "down") {
       if (this.keyboard[65]) {  // down and left
-        a[0] -= ACCEL * deltaMs;
-        a[1] += ACCEL * deltaMs * 0.5; // TODO: not actually a square
+        a[0] -= ACCEL * deltaMs * Math.cos(Math.PI/6);
+        a[1] += ACCEL * deltaMs * Math.sin(Math.PI/6);
       }
       if (this.keyboard[68]) {  // down and right
-        a[0] += ACCEL * deltaMs;
-        a[1] += ACCEL * deltaMs * 0.5; // TODO: not actually a square
+        a[0] += ACCEL * deltaMs * Math.cos(Math.PI/6);
+        a[1] += ACCEL * deltaMs * Math.sin(Math.PI/6);
       }
     }
     
