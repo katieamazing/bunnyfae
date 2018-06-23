@@ -20,6 +20,12 @@ function update(deltaMs) {
   player.update(deltaMs)
 }
 
+function draw_glyph_node(ctx,) {
+  ctx.beginPath();
+  ctx.arc(300, 100, 59/2, 0, 2*Math.PI);
+  ctx.stroke();
+}
+
 function draw(absoluteMs, ctx) {
   ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
   ctx.beginPath();
@@ -29,16 +35,14 @@ function draw(absoluteMs, ctx) {
   
   ctx.drawImage(BOX100, 100, 100); 
   
-  //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+  ctx.save();
+  ctx.scale(Math.sqrt(1.5), Math.sqrt(0.5));
   ctx.beginPath();
-  let rx = (Math.sqrt(1.5)*59)/2;
-  let ry = (Math.sqrt(0.5)*59)/2;
-  ctx.ellipse(100+rx, 166+ry, rx, ry, 0, 0, 2 * Math.PI);
+  ctx.arc(300, 300, 6*(59/2), 0, 2*Math.PI);
   ctx.stroke();
   
-  ctx.beginPath();
-  ctx.arc(300, 100, 59/2, 0, 2*Math.PI);
-  ctx.stroke();
+  draw_glyph_node(ctx);
+  ctx.restore();
   
   player.draw(absoluteMs, ctx);
 }
