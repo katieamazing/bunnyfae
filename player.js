@@ -157,7 +157,10 @@ class Player {
     */
   }
   worldCoordsToScreenCoords(world_x, world_y) {
-    
+    console.log(world_x);
+    let screen_x = world_x;
+    let screen_y = world_y * Math.sin(Math.PI / 6) / Math.sin(Math.PI / 4)
+    return [screen_x, screen_y];
   }
   draw(absoluteMs, ctx) {
       // wobble up and down something like once per second
@@ -166,13 +169,15 @@ class Player {
       var dx = Math.cos(absoluteMs * 0.001) * 2;
 
       var frame = Math.floor(absoluteMs * 0.001) % 2;
-      var x = this.pos[0] + dx;
-      var y = this.pos[1] + dy;
+      var screen_x;
+      var screen_y;
+      [screen_x, screen_y] = this.worldCoordsToScreenCoords(this.pos[0] + dx, this.pos[1] + dy);
+      console.log(screen_x, screen_y);
     
       ctx.globalCompositeOperation = 'overlay';
       //ctx.globalCompositeOperation = 'source-in';
       ctx.fillStyle = this.color;
-      ctx.fillRect(x, y, this.sprite.width, this.sprite.height);
-      ctx.drawImage(this.sprite, x - this.sprite.width / 2, y - this.sprite.height / 2);
+      ctx.fillRect(screen_x, screen_y, this.sprite.width, this.sprite.height);
+      ctx.drawImage(this.sprite, screen_x - this.sprite.width / 2, screen_y - this.sprite.height / 2);
   }
 }
