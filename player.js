@@ -117,25 +117,17 @@ class Player {
 
     // acceleration
     var a = [0, 0]
-    if (this.facing == "up") {
-      if (this.keyboard[65]) {  // up and left
-        a[0] -= ACCEL * deltaMs * Math.cos(Math.PI/6);
-        a[1] -= ACCEL * deltaMs * Math.sin(Math.PI/6);
-      }
-      if (this.keyboard[68]) {  // up and right
-        a[0] += ACCEL * deltaMs * Math.cos(Math.PI/6);
-        a[1] -= ACCEL * deltaMs * Math.sin(Math.PI/6);
-      }
+    if (this.upIsPressed()) {  // up
+      a[1] -= ACCEL * deltaMs;
     }
-    if (this.facing == "down") {
-      if (this.keyboard[65]) {  // down and left
-        a[0] -= ACCEL * deltaMs * Math.cos(Math.PI/6);
-        a[1] += ACCEL * deltaMs * Math.sin(Math.PI/6);
-      }
-      if (this.keyboard[68]) {  // down and right
-        a[0] += ACCEL * deltaMs * Math.cos(Math.PI/6);
-        a[1] += ACCEL * deltaMs * Math.sin(Math.PI/6);
-      }
+    if (this.downIsPressed()) {  // up
+      a[1] += ACCEL * deltaMs;
+    }
+    if (this.leftIsPressed()) {  // left
+      a[0] -= ACCEL * deltaMs;
+    }
+    if (this.rightIsPressed()) {  // right
+      a[0] += ACCEL * deltaMs;
     }
     
     // velocity 
@@ -164,7 +156,9 @@ class Player {
     }
     */
   }
-                          
+  worldCoordsToScreenCoords(world_x, world_y) {
+    
+  }
   draw(absoluteMs, ctx) {
       // wobble up and down something like once per second
       var dy = Math.sin(absoluteMs * 0.002) * 4;
