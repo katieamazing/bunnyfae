@@ -21,9 +21,11 @@ function update(deltaMs) {
 }
 
 function draw_glyph_node(ctx, world_x, world_y) {
+  ctx.fillStyle = "orange";
   ctx.beginPath();
-  ctx.arc(world_x, world_y, 59/2, 0, 2*Math.PI);
+  ctx.arc(world_x, world_y, 30, 0, 2*Math.PI);
   ctx.stroke();
+  ctx.fill();
 }
 
 function draw(absoluteMs, ctx) {
@@ -35,14 +37,19 @@ function draw(absoluteMs, ctx) {
   
   ctx.drawImage(BOX100, 100, 100); 
   
+
   ctx.save();
-  let number = 3;
+  let number = 5;
   let world_x = 300;
   let world_y = 300;
   ctx.scale(Math.sqrt(1.5), Math.sqrt(0.5));
   ctx.beginPath();
-  ctx.arc(world_x, world_y, number*40, 0, 2*Math.PI);
+  ctx.arc(world_x, world_y, number*40+30, 0, 2*Math.PI);
   ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(world_x, world_y, number*40-30, 0, 2*Math.PI);
+  ctx.stroke();
+  //ctx.fill();
 
   for (let i=0; i<number; i++) {
     draw_glyph_node(ctx, (Math.cos(2*i/number*Math.PI))*(number*40)+world_x, (Math.sin(2*i/number*Math.PI))*(number*40)+world_y);
