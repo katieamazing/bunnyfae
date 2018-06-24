@@ -197,13 +197,13 @@ export default class Player {
     var frame = Math.floor(absoluteMs * 0.001) % 2;
     var screen_x;
     var screen_y;
-    [screen_x, screen_y] = this.render_position([this.x + dx, this.y + dy]);
+    [screen_x, screen_y] = this.render_position(this.x + dx, this.y + dy);
 
     ctx.fillStyle = "purple";
     let purple_pos = this.render_position([500, 300]);
-    let purple_rect = {x:500, y:300], w:200, h:200};
+    let purple_rect = {x:500, y:300, w:200, h:200};
     let squished_rect = this.render_squish_rect(purple_rect);
-    ctx.fillRect(squished_rect.pos[0], squished_rect.pos[1], squished_rect.w, squished_rect.h);
+    ctx.fillRect(squished_rect.x, squished_rect.y, squished_rect.w, squished_rect.h);
     ctx.globalCompositeOperation = 'overlay';
     //ctx.globalCompositeOperation = 'source-in';
     if (this.rects_collide(purple_rect)) {
