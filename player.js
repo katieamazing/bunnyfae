@@ -59,7 +59,7 @@ export default class Player {
   }
   
   rects_collide(obstacle){
-    if (this.x + this.w >= obstacle.x&&     // r1 right edge past r2 left
+    if (this.x + this.w >= obstacle.x &&     // r1 right edge past r2 left
       this.x <= obstacle.x + obstacle.w &&       // r1 left edge past r2 right
       this.y + this.h >= obstacle.y &&       // r1 top edge past r2 bottom
       this.y <= obstacle.y+ obstacle.h) {       // r1 bottom edge past r2 top
@@ -206,12 +206,14 @@ export default class Player {
     ctx.fillRect(squished_rect.x, squished_rect.y, squished_rect.w, squished_rect.h);
     ctx.globalCompositeOperation = 'overlay';
     //ctx.globalCompositeOperation = 'source-in';
-    if (this.rects_collide(purple_rect)) {
+    if (this.rects_collide(purple_rec)) {
       ctx.fillStyle = "blue";
     } else {
       ctx.fillStyle = this.color;
     }
+    //ctx.fillRect(screen_x - this.sprite.width / 2, screen_y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
+    //ctx.drawImage(this.sprite, screen_x - this.sprite.width / 2, screen_y - this.sprite.height / 2);
     ctx.fillRect(screen_x, screen_y, this.sprite.width, this.sprite.height);
-    ctx.drawImage(this.sprite, screen_x - this.sprite.width / 2, screen_y - this.sprite.height / 2);
+    ctx.drawImage(this.sprite, screen_x, screen_y);
   }
 }
