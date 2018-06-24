@@ -40,7 +40,8 @@ export default class Player {
     this.facing = facing;
     this.keyboard = keyboard;
     this.world = world;
-    this.pos = [0,0];
+    this.x = 0;
+    this.y = 0;
     this.w = 61;
     this.h = 64;
     this.vel = [0, 0];
@@ -58,10 +59,10 @@ export default class Player {
   }
   
   rects_collide(obstacle){
-    if (this.pos[0] + this.w >= obstacle.pos[0] &&     // r1 right edge past r2 left
-      this.pos[0] <= obstacle.pos[0] + obstacle.w &&       // r1 left edge past r2 right
-      this.pos[1] + this.h >= obstacle.pos[1] &&       // r1 top edge past r2 bottom
-      this.pos[1] <= obstacle.pos[1] + obstacle.h) {       // r1 bottom edge past r2 top
+    if (this.x + this.w >= obstacle.x&&     // r1 right edge past r2 left
+      this.x <= obstacle.x + obstacle.w &&       // r1 left edge past r2 right
+      this.y + this.h >= obstacle.y &&       // r1 top edge past r2 bottom
+      this.y <= obstacle.y+ obstacle.h) {       // r1 bottom edge past r2 top
         return true;
     }
     return false;
@@ -154,8 +155,8 @@ export default class Player {
     this.decrease_speed(FRICTION);
     
     // position
-    this.pos[0] = parseInt(this.pos[0] + this.vel[0] * deltaMs);
-    this.pos[1] = parseInt(this.pos[1] + this.vel[1] * deltaMs);
+    this.x = parseInt(this.x + this.vel[0] * deltaMs);
+    this.y = parseInt(this.y + this.vel[1] * deltaMs);
     /*
     TODO: clamp the position to within the world
     if (this.pos[0] < 0) {
@@ -174,16 +175,16 @@ export default class Player {
     }
     */
   }
-  render_position([world_x, world_y]) {
+  render_position(world_x, world_y) {
     let screen_x = world_x;
     let screen_y = world_y * Math.sin(Math.PI / 6) / Math.sin(Math.PI / 4)
     return [screen_x, screen_y];
   }
   
-  render_squishrect(rect){
-    let squished_pos = this.render_position(rect.pos);
+  render_squish_rect(rect){
+    let squished_pos = this.render_position(rect.x, rect.y);
     let squished_height = rect.h * Math.sin(Math.PI / 6) / Math.sin(Math.PI / 4);
-    return squished_height;
+    return {x: squished_pos[0], y: squished_pos[1], w: rect.w, h: squished_height};
   }
   
   
@@ -196,14 +197,16 @@ export default class Player {
     var frame = Math.floor(absoluteMs * 0.001) % 2;
     var screen_x;
     var screen_y;
-    [screen_x, screen_y] = this.worldCoordsToScreenCoords([this.pos[0] + dx, this.pos[1] + dy]);
+    [screen_x, screen_y] = this.render_position([this.x + dx, this.y + dy]);
 
     ctx.fillStyle = "purple";
-    let purple_pos = this.worldCoordsToScreenCoords([500, 300]);
-    ctx.fillRect(purple_pos[0], purple_pos[1], 200, 200);
+    let purple_pos = this.render_position([500, 300]);
+    let purple_rect = {x:500, y:300], w:200, h:200};
+    let squished_rect = this.render_squish_rect(purple_rect);
+    ctx.fillRect(squished_rect.pos[0], squished_rect.pos[1], squished_rect.w, squished_rect.h);
     ctx.globalCompositeOperation = 'overlay';
     //ctx.globalCompositeOperation = 'source-in';
-    if (this.rects_collide({pos: [500, 300], w:200, h:200})) {
+    if (this.rects_collide(purple_rect)) {
       ctx.fillStyle = "blue";
     } else {
       ctx.fillStyle = this.color;
