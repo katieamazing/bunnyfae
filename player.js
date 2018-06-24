@@ -155,8 +155,8 @@ export default class Player {
     this.decrease_speed(FRICTION);
     
     // position
-    this.pos[0] = parseInt(this.pos[0] + this.vel[0] * deltaMs);
-    this.pos[1] = parseInt(this.pos[1] + this.vel[1] * deltaMs);
+    this.x = parseInt(this.x + this.vel[0] * deltaMs);
+    this.y = parseInt(this.y + this.vel[1] * deltaMs);
     /*
     TODO: clamp the position to within the world
     if (this.pos[0] < 0) {
@@ -181,20 +181,26 @@ export default class Player {
     return [screen_x, screen_y];
   }
   draw(absoluteMs, ctx) {
-      // wobble up and down something like once per second
-      var dy = Math.sin(absoluteMs * 0.002) * 4;
-      // wobble left and right something like once every other second
-      var dx = Math.cos(absoluteMs * 0.001) * 2;
+    // wobble up and down something like once per second
+    var dy = Math.sin(absoluteMs * 0.002) * 4;
+    // wobble left and right something like once every other second
+    var dx = Math.cos(absoluteMs * 0.001) * 2;
 
-      var frame = Math.floor(absoluteMs * 0.001) % 2;
-      var screen_x;
-      var screen_y;
-      [screen_x, screen_y] = this.worldCoordsToScreenCoords(this.pos[0] + dx, this.pos[1] + dy);
-    
-      ctx.globalCompositeOperation = 'overlay';
-      //ctx.globalCompositeOperation = 'source-in';
+    var frame = Math.floor(absoluteMs * 0.001) % 2;
+    var screen_x;
+    var screen_y;
+    [screen_x, screen_y] = this.worldCoordsToScreenCoords(this.x + dx, this.y + dy);
+
+    ctx.fillStyle = "purple";
+    ctx.fillRect(500, 300, 200, 200);
+    ctx.globalCompositeOperation = 'overlay';
+    //ctx.globalCompositeOperation = 'source-in';
+    if (this.rects_collide({x: 500, y:300, w:200, h:200})) {
+      ctx.fillStyle = "blue";
+    } else {
       ctx.fillStyle = this.color;
-      ctx.fillRect(screen_x, screen_y, this.sprite.width, this.sprite.height);
-      ctx.drawImage(this.sprite, screen_x - this.sprite.width / 2, screen_y - this.sprite.height / 2);
+    }
+    ctx.fillRect(screen_x, screen_y, this.sprite.width, this.sprite.height);
+    ctx.drawImage(this.sprite, screen_x - this.sprite.width / 2, screen_y - this.sprite.height / 2);
   }
 }
