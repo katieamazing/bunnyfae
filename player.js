@@ -40,7 +40,10 @@ export default class Player {
     this.facing = facing;
     this.keyboard = keyboard;
     this.world = world;
-    this.pos = [100, 100];
+    this.x = 0;
+    this.y = 0;
+    this.w = 61;
+    this.h = 64;
     this.vel = [0, 0];
     this.dest = null;
     this.sprite = back_left;
@@ -53,6 +56,22 @@ export default class Player {
   
   whois() {
     return this.who;
+  }
+  
+  rects_collide(obstacle){
+    if (this.x + this.w >= obstacle.x &&     // r1 right edge past r2 left
+      this.x <= obstacle.x + obstacle.w &&       // r1 left edge past r2 right
+      this.y + this.h >= obstacle.y &&       // r1 top edge past r2 bottom
+      this.y <= obstacle.y + obstacle.h) {       // r1 bottom edge past r2 top
+        return true;
+    }
+    return false;
+  }
+
+  nudge_away(obstacle){
+  }
+
+  snap_to(glyph_node){
   }
   
   decrease_speed(amount) {

@@ -11,6 +11,8 @@ const BOX100 = document.getElementById("box100");
 const QSDR_SPACE = [81, 83, 68, 82, 32];
 const WASD_SPACE = [87, 65, 83, 68, 32];
 
+
+
 function update(deltaMs) {
   //nothing yet
   player.update(deltaMs)
