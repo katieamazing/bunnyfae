@@ -206,7 +206,7 @@ export default class Player {
     ctx.fillRect(squished_rect.x, squished_rect.y, squished_rect.w, squished_rect.h);
     ctx.globalCompositeOperation = 'overlay';
     //ctx.globalCompositeOperation = 'source-in';
-    if (this.rects_collide(purple_rec)) {
+    if (this.rects_collide(purple_rect)) {
       ctx.fillStyle = "blue";
     } else {
       ctx.fillStyle = this.color;
