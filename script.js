@@ -56,11 +56,16 @@ function draw(absoluteMs, ctx) {
   
   player.draw(absoluteMs, ctx);
   
+  let [topx, topy] = player.render_position(player.x + player.sprite.width/2, player.y);
+  let [eastx, easty] = player.render_position(player.x + player.sprite.width, player.y+ player.sprite.height/2);
+  let [southx, southy] = player.render_position(player.x + player.sprite.width/2, player.y+ player.sprite.height);
+  let [westx, westy] = player.render_position(player.x, player.y+ player.sprite.height/2);
+  
   ctx.beginPath();
-  ctx.moveTo(player.x + player.sprite.width/2, player.y-10);
-  ctx.lineTo(player.x + 10, player.y);
-  ctx.lineTo(player.x, player.y + 10);
-  ctx.lineTo(player.x - 10, player.y);
+  ctx.moveTo(topx, topy);
+  ctx.lineTo(eastx, easty);
+  ctx.lineTo(southx, southy);
+  ctx.lineTo(westx, westy);
   ctx.closePath();
   ctx.stroke();
 }
