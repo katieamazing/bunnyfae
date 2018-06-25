@@ -62,13 +62,13 @@ function draw(absoluteMs, ctx) {
   let [southx, southy] = player.render_position(player.x + player.sprite.width/2, player.y+ player.sprite.height);
   let [westx, westy] = player.render_position(player.x, player.y+ player.sprite.height/2);
   
-  let ypad = player.sprite.height * SQUISH;
+  let ypad = (player.sprite.height * SQUISH)/2;
   
   ctx.beginPath();
   ctx.moveTo(topx, topy+ypad);
   ctx.lineTo(eastx, easty+ypad);
-  ctx.lineTo(southx, southy+);
-  ctx.lineTo(westx, westy);
+  ctx.lineTo(southx, southy+ypad);
+  ctx.lineTo(westx, westy+ypad);
   ctx.closePath();
   ctx.stroke();
 }
