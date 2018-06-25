@@ -6,6 +6,7 @@ const SCREEN_WIDTH = canvas.width;
 const SCREEN_HEIGHT = canvas.height;
 const LONG_PRESS_DURATION = 150;  // milliseconds
 const BOX100 = document.getElementById("box100");
+const SQUISH = Math.sin(Math.PI / 6) / Math.sin(Math.PI / 4);
 
 // magic numbers for keys
 const QSDR_SPACE = [81, 83, 68, 82, 32];
@@ -61,10 +62,12 @@ function draw(absoluteMs, ctx) {
   let [southx, southy] = player.render_position(player.x + player.sprite.width/2, player.y+ player.sprite.height);
   let [westx, westy] = player.render_position(player.x, player.y+ player.sprite.height/2);
   
+  let ypad = player.sprite.height * SQUISH;
+  
   ctx.beginPath();
-  ctx.moveTo(topx, topy);
-  ctx.lineTo(eastx, easty);
-  ctx.lineTo(southx, southy);
+  ctx.moveTo(topx, topy+ypad);
+  ctx.lineTo(eastx, easty+ypad);
+  ctx.lineTo(southx, southy+);
   ctx.lineTo(westx, westy);
   ctx.closePath();
   ctx.stroke();
