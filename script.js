@@ -55,6 +55,14 @@ function draw(absoluteMs, ctx) {
   ctx.restore();
   
   player.draw(absoluteMs, ctx);
+  
+  ctx.beginPath();
+  ctx.moveTo(player.x + player.sprite.width/2, player.y-10);
+  ctx.lineTo(player.x + 10, player.y);
+  ctx.lineTo(player.x, player.y + 10);
+  ctx.lineTo(player.x - 10, player.y);
+  ctx.closePath();
+  ctx.stroke();
 }
 
 class Keyboard {
